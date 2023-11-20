@@ -5,6 +5,7 @@
 #include<fstream>// Librería para realizar operaciones de entrada y salida de archivos.
 using namespace std;
 
+
 //------------------------------FUNCIONES-----------------------------------------------------
 void slogan();
 void limpiar();
@@ -25,7 +26,8 @@ int main(){
     return 0;
 }
 
-    void MenuPrincipal(){ //funcion del menu principal
+//----------------------------FUNCION DEL MENU PRINCIPAL----------------------------------------------
+    void MenuPrincipal(){ 
 
     int opc=0;
 
@@ -58,12 +60,11 @@ int main(){
             do
             {
                 slogan();
-                cout << "===== MENU ADMINISTRADOR =====" << endl;
-                cout << "1. agregar usuarios al sistema" << endl;
-                cout << "2. eliminar usuarios del sistema" <<endl;
-                cout << "3. rellenar dinero al cajero" << endl;
-                cout << "4. cambiar la contrasena de la cuenta" << endl;
-                cout << "5. Regresar al menu" << endl;
+                cout << "\n===== MENU ADMINISTRADOR =====\n" << endl;
+                cout << "1. agregar e eliminar usuarios al sistema" << endl;
+                cout << "2. rellenar dinero al cajero" << endl;
+                cout << "3. cambiar la contrasena de la cuenta" << endl;
+                cout << "4. Regresar al menu" << endl;
                 cout << "Ingrese una opcion: ";
                 cin >> opc_admin;
 
@@ -72,7 +73,6 @@ int main(){
                 case 1:
                 limpiar();
                 slogan();
-
                     AgregarUsuarios(); //Funcion donde se guarda la informacion en el archivo de texto
                     cout << "Presione ENTER para continuar"<<endl;
                     cin.ignore();  //se utiliza para ignorar caracteres en el flujo de entrada estándar (cin)
@@ -82,16 +82,6 @@ int main(){
 
                 case 2:
                 limpiar();
-                slogan ();
-                    EliminarUsuario();//funcion donde se guardan los usuarios eliminados en el archivo de texto
-                    cout<<"Presione ENTER para continuar"<<endl;
-                    cin.ignore();
-                    cin.get();
-                    limpiar();
-                break;
-
-                case 3:
-                limpiar();
                 slogan();
                     RellenarCajero();//funcion donde guardara el dinero,lo eliminara y ver el estado del cajero
                     cout<<"Presione ENTER para continuar"<<endl;
@@ -100,7 +90,7 @@ int main(){
                     limpiar();
                 break;
                 
-                case 4:
+                case 3:
                 limpiar();
                 slogan();
                 cout<<"presione ENTER para continuar"<<endl;
@@ -109,14 +99,14 @@ int main(){
                 limpiar();
                 break;   
 
-                case 5:
+                case 4:
                 break;
 
                 default:
                 cout<<"opcion invalida "<<endl;
                     break;
                 }
-            } while (opc_admin != 5);
+            } while (opc_admin != 4);
             
             break;
 
@@ -125,6 +115,9 @@ int main(){
         case 2://-----------------------menu principal---------------------------------
 
 
+        break;
+
+        case 3:
         break;
         
         default:
