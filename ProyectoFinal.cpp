@@ -1,10 +1,31 @@
+//---------------------------------LIBRERIAS-----------------------------
+
 #include <iostream> //libreria estandar de c++
 #include "LibreriaLocal.h" //incluyendo libreria local
 #include<fstream>// Librería para realizar operaciones de entrada y salida de archivos.
 using namespace std;
 
 //------------------------------FUNCIONES-----------------------------------------------------
-void MenuPrincipal(){ //funcion del menu principal
+void slogan();
+void limpiar();
+bool seccionAdmin();
+void MenuPrincipal();
+int obtenerSaldo();
+void mostrarSaldo();
+void rellenarDinero();
+void eliminarDatos();
+void RellenarCajero();
+
+
+//-------------------------------MAIN------------------------------------------
+int main(){
+    limpiar();
+    MenuPrincipal();
+
+    return 0;
+}
+
+    void MenuPrincipal(){ //funcion del menu principal
 
     int opc=0;
 
@@ -13,19 +34,24 @@ void MenuPrincipal(){ //funcion del menu principal
         limpiar();
         slogan();
 
-        cout << "===== MENU PRINCIPAL =====" << endl;
+        cout << "\n===== MENU PRINCIPAL =====\n" << endl;
         cout << "1. Opciones para administrador" << endl;
         cout << "2. Opciones generales" << endl;
         cout << "3. Salir" << endl;
-        cout << "Ingrese una opcion: ";
+        cout << "\nIngrese una opcion: ";
         cin >> opc; 
 
         switch (opc)
         {
-        case 1://menu administrador
-            
+        case 1:
             limpiar();
             slogan();
+
+            //el if es para iniciar seccion en el menu de adminstradores 
+            
+            if (!seccionAdmin()){
+                break;
+                }
 
             int opc_admin;
             limpiar();
@@ -34,7 +60,7 @@ void MenuPrincipal(){ //funcion del menu principal
                 slogan();
                 cout << "===== MENU ADMINISTRADOR =====" << endl;
                 cout << "1. agregar usuarios al sistema" << endl;
-                cout << "2.eliminar usuarios del sistema" <<endl;
+                cout << "2. eliminar usuarios del sistema" <<endl;
                 cout << "3. rellenar dinero al cajero" << endl;
                 cout << "4. cambiar la contrasena de la cuenta" << endl;
                 cout << "5. Regresar al menu" << endl;
@@ -45,6 +71,8 @@ void MenuPrincipal(){ //funcion del menu principal
                 {
                 case 1:
                 limpiar();
+                slogan();
+
                     AgregarUsuarios(); //Funcion donde se guarda la informacion en el archivo de texto
                     cout << "Presione ENTER para continuar"<<endl;
                     cin.ignore();  //se utiliza para ignorar caracteres en el flujo de entrada estándar (cin)
@@ -54,6 +82,7 @@ void MenuPrincipal(){ //funcion del menu principal
 
                 case 2:
                 limpiar();
+                slogan ();
                     EliminarUsuario();//funcion donde se guardan los usuarios eliminados en el archivo de texto
                     cout<<"Presione ENTER para continuar"<<endl;
                     cin.ignore();
@@ -63,14 +92,21 @@ void MenuPrincipal(){ //funcion del menu principal
 
                 case 3:
                 limpiar();
-                RellenarCajero();//funcion donde se guardara los datos de dinero 
+                slogan();
+                    RellenarCajero();//funcion donde guardara el dinero,lo eliminara y ver el estado del cajero
+                    cout<<"Presione ENTER para continuar"<<endl;
+                    cin.ignore();
+                    cin.get();
+                    limpiar();
+                break;
+                
+                case 4:
+                limpiar();
+                slogan();
                 cout<<"presione ENTER para continuar"<<endl;
                 cin.ignore();
                 cin.get();
                 limpiar();
-                break;
-                
-                case 4:
                 break;   
 
                 case 5:
@@ -83,8 +119,10 @@ void MenuPrincipal(){ //funcion del menu principal
             } while (opc_admin != 5);
             
             break;
+
+            
         
-        case 2://menu principal
+        case 2://-----------------------menu principal---------------------------------
 
 
         break;
@@ -93,48 +131,12 @@ void MenuPrincipal(){ //funcion del menu principal
             break;
         }
     
-    } while (!3);
+    } while (opc != 3);
     
 
 
     }
 
-
-//-------------------------------MAIN------------------------------------------
-int main(){
-    limpiar();
-    MenuPrincipal();
-
-    return 0;
-}
-
-
-//inicio de secion administrador
-bool seccionAdmin() 
-{
-    string User, PassW;
-    int intentos = 0;
-    while (intentos < 3)
-    {
-        cout << "Ingrese el nombre de usuario: ";
-        cin >> User;
-        cout << "Ingrese la contrasenia: ";
-        cin >> PassW;
-
-        if (User == "admin" && PassW == "admin123")
-        {
-            return true;
-        }
-        else
-        {
-            intentos++;
-            cout << "Datos incorrectos. Intentos restantes: " << 3 - intentos << endl;
-        }
-    }
-
-    cout << "Ha excedido el numero de intentos. Reiniciando el programa..." << endl;
-    return false;
-}
 
 
  
