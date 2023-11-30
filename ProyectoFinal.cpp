@@ -6,6 +6,8 @@
 using namespace std;
 
 
+
+
 //------------------------------FUNCIONES-----------------------------------------------------
 void slogan();
 void limpiar();
@@ -45,7 +47,7 @@ int main(){
 
         switch (opc)
         {
-        case 1:
+        case 1://-----------------------------------menu administrador----------------------------------
             limpiar();
             slogan();
 
@@ -62,10 +64,10 @@ int main(){
                 slogan();
                 cout << "\n===== MENU ADMINISTRADOR =====\n" << endl;
                 cout << "1. agregar e eliminar usuarios al sistema" << endl;
-                cout << "2. rellenar dinero al cajero" << endl;
+                cout << "2. rellenar e eliminar dinero del cajero" << endl;
                 cout << "3. cambiar la contrasena de la cuenta" << endl;
                 cout << "4. Regresar al menu" << endl;
-                cout << "Ingrese una opcion: ";
+                cout << "\nIngrese una opcion: ";
                 cin >> opc_admin;
 
                 switch (opc_admin)
@@ -83,7 +85,7 @@ int main(){
                 case 2:
                 limpiar();
                 slogan();
-                    RellenarCajero();//funcion donde guardara el dinero,lo eliminara y ver el estado del cajero
+                    RellenoCajero();//funcion donde guardara el dinero,lo eliminara y ver el estado del cajero
                     cout<<"Presione ENTER para continuar"<<endl;
                     cin.ignore();
                     cin.get();
@@ -93,13 +95,24 @@ int main(){
                 case 3:
                 limpiar();
                 slogan();
-                cout<<"presione ENTER para continuar"<<endl;
-                cin.ignore();
-                cin.get();
-                limpiar();
-                break;   
+                   // eliminarDineroCajero();
+                    cout<<"presione ENTER para continuar"<<endl;
+                    cin.ignore();
+                    cin.get();
+                    limpiar();
+                break;  
 
                 case 4:
+                limpiar();
+                slogan();
+                   // eliminarDineroCajero();
+                    cout<<"presione ENTER para continuar"<<endl;
+                    cin.ignore();
+                    cin.get();
+                    limpiar();
+                break;  
+
+                case 5:
                 break;
 
                 default:

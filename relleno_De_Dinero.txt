@@ -1,0 +1,5 @@
+Billetes de $1: 50
+Billetes de $5: 50
+Billetes de $10: 50
+Billetes de $20: 50
+Billetes de $100: 50

@@ -5,20 +5,19 @@
 #include <fstream>  // Librería para realizar operaciones de entrada y salida de archivos.
 using namespace std;
 
-//funciones
+//---------funciones--------------
 
-
-bool correcto = true;
-
+//funcion para limpiar pantalla
 void limpiar(){
     system("cls");
 }
 
+//slogan del cajero
 void slogan(){
     cout<<"\nBIENVENIDO A TU CAJERO AUTOMATICO PREFERIDO \nTu dinero, tu tiempo, tu eleccion.\n ";
 }
 
-//---------------------------FUNCIONES DE AGREGAR E ELIMINAR USUARIOS---------------------
+//---------------------------FUNCIONES DE AGREGAR E ELIMINAR USUARIOS--------------------------------------
 
 // Estructura para representar la información de un usuario
 struct Usuario {
@@ -54,7 +53,7 @@ void agregarUsuario(const string& archivoUsuarios) {
         return;
     }
 
-    cout << "Ingrese el PIN: ";
+    cout << "Ingrese el PIN de seguridad: ";
     cin >> nuevoUsuario.pin;
 
     // Agregar el nuevo usuario al archivo
@@ -125,9 +124,11 @@ void mostrarUsuarios(const string& archivoUsuarios) {
 
     Usuario tempUsuario;
 
+    
     cout << "\n===== Lista de Usuarios =====\n";
     while (archivoLectura >> tempUsuario.nombre >> tempUsuario.pin) {
         cout << "Nombre: " << tempUsuario.nombre << ", PIN: " << tempUsuario.pin <<endl;
+        cout<<"======================="<<endl;
     }
 
     archivoLectura.close();
@@ -170,98 +171,152 @@ void AgregarUsuarios() {
 
 }
 
+
+
 //----- ---FUNCION PARA RELLENAR EL CAJERO, ELIMINAR y MOSTRAR DINERO DISPONIBLE EN EL CAJERO---------------
 
-// Función para obtener el saldo actual del archivo
-int obtenerSaldo(string archivoSaldo) {
-    ifstream archivo(archivoSaldo);
-    int saldo = 0;
-    if (archivo.is_open()) {
-        archivo >> saldo;
-        archivo.close();
+const int tiposBilletes = 5;
+const int tipos[] = {1, 5, 10, 20, 100};
+
+// Estructura para representar el estado del cajero automático
+ struct Cajero {
+    int billetes[tiposBilletes];
+ };
+
+//funcion para el menu de opciones 
+ int mostrarMenu(){
+
+    int opcRellenar;
+
+    cout<<"\n------BIENVENIDO------\n"<<endl;
+    cout<<"eliga una opcion.\n"<<endl;
+    cout<<"1.rellenar de dinero al cajero"<<endl;
+    cout<<"2.eliminar dinero del cajero"<<endl;
+    cout<<"3.mostrar estado del cajero"<<endl;
+    cout<<"4.salir"<<endl;
+    cout<<"\nponga su opcion :"; 
+    cin>> opcRellenar;
+
+    return opcRellenar;
+ }
+// funcion para rellenar de dinero al cajero automatico
+ void ingresarDinero(Cajero &cajero_r) {
+
+    ofstream archivo("relleno_De_Dinero.txt",ios::app);
+    // Bucle para iterar a través de los tipos de billetes
+    for (int i = 0; i < tiposBilletes; ++i) {
+        // Variable para almacenar la cantidad de billetes ingresados por el usuario
+        int cantidad;
+
+        // Solicitar al usuario que ingrese la cantidad de billetes de la denominación actual
+        cout << "Ingrese la cantidad de billetes de $" << tipos[i] << ": ";
+        cin >> cantidad;
+
+        // Actualizar la cantidad de billetes en el arreglo 'billetes' del objeto 'cajero'
+        cajero_r.billetes[i] += cantidad;
     }
-    return saldo;
-}
+    
+    archivo.close();
 
-// Función para mostrar el saldo actual
-void mostrarSaldo(string archivoSaldo) {
-    int saldo = obtenerSaldo(archivoSaldo);
-    cout<<"Saldo actual: $" << saldo <<endl;
-}
+    // Mensaje indicando que el dinero ha sido ingresado correctamente
+    cout << "\nDinero ingresado correctamente.\n";
+ }
+ 
+  void verEstadoCajero(const Cajero &cajero_r){
 
-// Función para rellenar dinero en el cajero y actualizar el archivo
-void rellenarDinero(string archivoSaldo) {
-    int cantidad;
-    cout << "Ingrese la cantidad de dinero a agregar: $";
-    cin >> cantidad;
+     ofstream archivo("relleno_De_Dinero.txt",ios::app);// Abre el archivo en modo de adjuntar
+     
+     cout << "\nEstado del cajero:\n";
 
-    if (cantidad > 0) {
-        int saldoActual = obtenerSaldo(archivoSaldo);
-        saldoActual += cantidad;
+    for (int i = 0; i < tiposBilletes; ++i) {
+        cout << "Billetes de $" << tipos[i] << ": " << cajero_r.billetes[i] << endl;
+    }
 
-        ofstream archivo(archivoSaldo);
-        if (archivo.is_open()) {
-            archivo << saldoActual;
-            archivo.close();
-            cout << "Dinero agregado correctamente." << endl;
+    // Calcular la suma total de todos los billetes ingresados
+    int sumaTotal = 0;
+    for (int i = 0; i < tiposBilletes; ++i) {
+        sumaTotal += tipos[i] * cajero_r.billetes[i];
+    }
+    archivo.close();
+    cout << "\n total del dinero : $" << sumaTotal << endl;
+
+ }
+ 
+
+ void retirarDinero(Cajero &cajero_r) {
+    // Bucle para iterar a través de los tipos de billetes
+    for (int i = 0; i < tiposBilletes; ++i) {
+        // Variable para almacenar la cantidad de billetes a retirar
+        int cantidad;
+
+        // Solicitar al usuario que ingrese la cantidad de billetes de la denominación actual a retirar
+        cout << "Ingrese la cantidad de billetes de $" << tipos[i] << " a retirar: ";
+        cin >> cantidad;
+
+        // Verificar si hay suficientes billetes para retirar
+        if (cantidad <= cajero_r.billetes[i]) {
+            // Actualizar la cantidad de billetes en el arreglo 'billetes' del objeto 'cajero'
+            cajero_r.billetes[i] -= cantidad;
         } else {
-            cout<< "Error al abrir el archivo para guardar el saldo." <<endl;
+            cout << "No hay suficientes billetes de $" << tipos[i] << " en el cajero.\n";
         }
-    } else {
-        cout << "Ingrese una cantidad valida." <<endl;
     }
-}
 
-void eliminarDatos(string archivoSaldo) {
-    ofstream archivo(archivoSaldo);
-    if (archivo.is_open()) {
-        archivo << 0;  // Establecer el saldo a cero
-        archivo.close();
-        cout << "Datos eliminados correctamente." <<endl;
-    } else {
-        cout << "Error al abrir el archivo para eliminar los datos." <<endl;
-    }
-}
+    // Mensaje indicando que el dinero ha sido retirado correctamente
+    cout << "\nDinero retirado correctamente.\n";
+};
 
-void RellenarCajero(){
 
-string archivoSaldo = "saldo.txt";
+void mostarCajero(Cajero &cajero_r){
 
-    int opcion=0;
+  ofstream archivo("relleno_De_Dinero.txt");
+  for (int i = 0; i < tiposBilletes; ++i) {
+    archivo << "Billetes de $" << tipos[i] << ": " << cajero_r.billetes[i] << endl;
+  }
+  archivo.close();
 
+};
+
+
+
+ void RellenoCajero(){
+
+    Cajero Cajero_r={0};
+
+    int opcion;
     do {
-        cout << "\n----- Cajero Automatico -----\n";
-        cout << "1. Mostrar Saldo\n";
-        cout << "2. Rellenar Dinero\n";
-        cout << "3. Eliminar Datos\n";
-        cout << "4. Salir\n";
-        cout << "Ingrese su opcion: ";
-        cin >> opcion;
+        opcion = mostrarMenu();
 
         switch (opcion) {
             case 1:
-                mostrarSaldo(archivoSaldo);
+                ingresarDinero(Cajero_r);
+                mostarCajero(Cajero_r);
                 break;
             case 2:
-                rellenarDinero(archivoSaldo);
+                retirarDinero(Cajero_r);
+                mostarCajero(Cajero_r);
                 break;
             case 3:
-                eliminarDatos(archivoSaldo);
+                verEstadoCajero(Cajero_r);
+                mostarCajero(Cajero_r);
                 break;
+
             case 4:
-                break;
+            break;
 
             default:
-                cout<< "Opción no valida. Intente nuevamente." <<endl;
-                break;
+                cout << "Opción inválida. Por favor, intente de nuevo.\n";
         }
 
-    } while(opcion != 4);
+    } while (opcion != 4);
 
-}
 
-//-------------------funcion para iniciar seccion para poder ingresar al menu de administracion---------------
+ }
+ 
+
+//------------------------FUNCION PARA PODER INICAR SESION COMO ADMINISTRADOR-----------------------------
 bool seccionAdmin() {
+    bool correcto = true;
     string User, PassW;
     int intentos = 0;
     while (intentos < 3)
@@ -287,4 +342,5 @@ bool seccionAdmin() {
     return false;
     
     }
+
 
