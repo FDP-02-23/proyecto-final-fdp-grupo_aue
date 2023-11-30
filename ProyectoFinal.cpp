@@ -24,7 +24,6 @@ void RellenarCajero();
 int main(){
     limpiar();
     MenuPrincipal();
-
     return 0;
 }
 
