@@ -6,18 +6,8 @@
 using namespace std;
 
 
-
-
 //------------------------------FUNCIONES-----------------------------------------------------
-void slogan();
-void limpiar();
-bool seccionAdmin();
 void MenuPrincipal();
-int obtenerSaldo();
-void mostrarSaldo();
-void rellenarDinero();
-void eliminarDatos();
-void RellenarCajero();
 
 
 //-------------------------------MAIN------------------------------------------
@@ -53,7 +43,7 @@ int main(){
             //el if es para iniciar seccion en el menu de adminstradores 
             
             if (!seccionAdmin()){
-                break;
+                break;  //se utiliza para salir inmediatamente del bucle y continuar con la ejecución del código fuera del bucle.
                 }
 
             int opc_admin;
@@ -74,7 +64,7 @@ int main(){
                 case 1:
                 limpiar();
                 slogan();
-                    AgregarUsuarios(); //Funcion donde se guarda la informacion en el archivo de texto
+                    AgregareEliminarUsuarios(); //Funcion donde se guarda la informacion en el archivo de texto
                     cout << "Presione ENTER para continuar"<<endl;
                     cin.ignore();  //se utiliza para ignorar caracteres en el flujo de entrada estándar (cin)
                     cin.get(); //se utiliza para leer un solo carácter del flujo de entrada estándar (cin).
@@ -94,7 +84,7 @@ int main(){
                 case 3:
                 limpiar();
                 slogan();
-                   // eliminarDineroCajero();
+                //funcion
                     cout<<"presione ENTER para continuar"<<endl;
                     cin.ignore();
                     cin.get();
@@ -102,17 +92,7 @@ int main(){
                 break;  
 
                 case 4:
-                limpiar();
-                slogan();
-                   // eliminarDineroCajero();
-                    cout<<"presione ENTER para continuar"<<endl;
-                    cin.ignore();
-                    cin.get();
-                    limpiar();
                 break;  
-
-                case 5:
-                break;
 
                 default:
                 cout<<"opcion invalida "<<endl;
@@ -125,7 +105,66 @@ int main(){
             
         
         case 2://-----------------------menu principal---------------------------------
+        limpiar();
 
+        int opc_gral;
+        do
+        {
+            slogan();
+            cout << "\n===== MENU GENERAL =====\n" << endl;
+                cout << "1. retiro de dinero" << endl;
+                cout << "2. deposito de dinero" << endl;
+                cout << "3. estado de cuenta" << endl;
+                cout << "4. Regresar al menu" << endl;
+                cout << "\nIngrese una opcion: ";
+                cin >> opc_gral;
+
+                switch (opc_gral)
+                {
+                case 1:
+                limpiar();
+                slogan();
+                //funcion
+                cout<<"presione ENTER para continuar"<<endl;
+                cin.ignore();
+                cin.get();
+                limpiar();
+
+                break;
+
+                case 2:
+                limpiar();
+                slogan();
+                //funcion
+                cout<<"presione ENTER para continuar"<<endl;
+                cin.ignore();
+                cin.get();
+                limpiar();
+
+                break;
+
+                case 3:
+                limpiar();
+                slogan();
+                //funcion
+                cout<<"presione ENTER para continuar"<<endl;
+                cin.ignore();
+                cin.get();
+                limpiar();
+
+                break;
+
+                case 4:
+                break;
+                
+                default:
+                cout<<"opcion no valida, intento de nuevo"<<endl;
+                    break;
+                }
+
+
+            
+        } while (opc_gral !=4);
 
         break;
 
@@ -133,6 +172,7 @@ int main(){
         break;
         
         default:
+        cout<<"opcion no valida, intente de nuevo"<<endl;
             break;
         }
     
@@ -141,8 +181,3 @@ int main(){
 
 
     }
-
-
-
- 
- 

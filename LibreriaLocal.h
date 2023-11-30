@@ -19,124 +19,77 @@ void slogan(){
 
 //---------------------------FUNCIONES DE AGREGAR E ELIMINAR USUARIOS--------------------------------------
 
-// Estructura para representar la información de un usuario
-struct Usuario {
+// Definición de la estructura para almacenar información del usuario
+struct usuario
+{
     string nombre;
-    int pin;
+    string password;
 };
 
-// Función para verificar si un usuario existe
-bool usuarioExiste(const string& usuario, ifstream& archivoUsuarios) {
-    Usuario tempUsuario;
+// Función para agregar un nuevo usuario al archivo
+void agregarUsuario() {
+    usuario agregado;
 
-    while (archivoUsuarios >> tempUsuario.nombre >> tempUsuario.pin) {
-        if (tempUsuario.nombre == usuario) {
-            return true;
-        }
-    }
+    // Nombre del archivo que almacenará la información de los usuarios
+    string archivoUsuarios = "ingresados.txt";
 
-    return false;
-}
+    // Abre el archivo en modo de añadir (append)
+    ofstream ingresados(archivoUsuarios, ios::app);
 
-// Función para agregar un nuevo usuario
-void agregarUsuario(const string& archivoUsuarios) {
-    Usuario nuevoUsuario;
+    if (ingresados.is_open()) {
+        // Solicita al usuario que ingrese su nombre vinculado a la cuenta
+        cout << "\nIngrese su nombre enlazado con la cuenta: ";
+        cin.ignore();
+        getline(cin, agregado.nombre);
 
-    // Solicitar datos del nuevo usuario
-    cout << "Ingrese el nombre de usuario: ";
-    cin >> nuevoUsuario.nombre;
+        // Solicita al usuario que ingrese su contraseña de la cuenta
+        cout << "\nIngrese su contrasena de su cuenta: ";
+        getline(cin, agregado.password);
 
-    // Verificar si el usuario ya existe
-    ifstream archivoLectura(archivoUsuarios);
-    if (usuarioExiste(nuevoUsuario.nombre, archivoLectura)) {
-        cout << "El usuario ya existe. Intente con otro nombre de usuario." <<endl;
-        return;
-    }
+        // Escribe la información del usuario en el archivo
+        ingresados << "nombre: " << agregado.nombre << endl;
+        ingresados << "contrasena: " << agregado.password << endl;
 
-    cout << "Ingrese el PIN de seguridad: ";
-    cin >> nuevoUsuario.pin;
-
-    // Agregar el nuevo usuario al archivo
-    ofstream archivoEscritura(archivoUsuarios,ios::app);  // Modo de apertura para agregar al final del archivo
-    if (archivoEscritura.is_open()) {
-        archivoEscritura << nuevoUsuario.nombre << " " << nuevoUsuario.pin <<endl;
-        cout << "Usuario agregado correctamente." <<endl;
+        // Cierra el archivo y muestra un mensaje de éxito
+        ingresados.close();
+        cout << "\nIngresado exitosamente\n";
     } else {
-        cout<< "Error al abrir el archivo de usuarios para agregar un nuevo usuario." <<endl;
+        // Muestra un mensaje si no se puede abrir el archivo
+        cout << "No se puede abrir el archivo\n";
     }
 }
 
-// Función para eliminar un usuario y su PIN
-void eliminarUsuario(const string& archivoUsuarios) {
-    string usuarioEliminar;
-    cout << "Ingrese el nombre de usuario a eliminar: ";
-    cin >> usuarioEliminar;
-
-    ifstream archivoEntrada(archivoUsuarios);
-    if (!archivoEntrada.is_open()) {
-        cout<< "Error al abrir el archivo de usuarios para eliminar un usuario." <<endl;
-        return;
-    }
-
-    ofstream archivoTemp("temp.txt");
-    if (!archivoTemp.is_open()) {
-        cout<< "Error al abrir el archivo temporal para eliminar un usuario." <<endl;
-        return;
-    }
-
-    Usuario tempUsuario;
-    bool usuarioEncontrado = false;
-
-    while (archivoEntrada >> tempUsuario.nombre >> tempUsuario.pin) {
-        if (tempUsuario.nombre == usuarioEliminar) {
-            cout << "Usuario eliminado correctamente." <<endl;
-            usuarioEncontrado = true;
-        } else {
-            archivoTemp << tempUsuario.nombre << " " << tempUsuario.pin <<endl;
-        }
-    }
-
-    archivoEntrada.close();
-    archivoTemp.close();
-
-    // Renombrar el archivo temporal al original
-    if (remove(archivoUsuarios.c_str()) != 0) {
-        cout<< "Error al eliminar el archivo original de usuarios." <<endl;
-        return;
-    }
-
-    if (rename("temp.txt", archivoUsuarios.c_str()) != 0) {
-        cout << "Error al renombrar el archivo temporal." <<endl;
-    }
-
-    if (!usuarioEncontrado) {
-        cout << "El usuario no existe." <<endl;
-    }
-}
-
-// Función para mostrar todos los usuarios
-void mostrarUsuarios(const string& archivoUsuarios) {
-    ifstream archivoLectura(archivoUsuarios);
-    if (!archivoLectura.is_open()) {
-        cout<< "Error al abrir el archivo de usuarios para mostrar la lista." <<endl;
-        return;
-    }
-
-    Usuario tempUsuario;
-
+// Función para mostrar todos los usuarios registrados
+void mostrarUsuarios() {
+    // Nombre del archivo que almacena la información de los usuarios
+    string archivoUsuarios = "ingresados.txt";
     
-    cout << "\n===== Lista de Usuarios =====\n";
-    while (archivoLectura >> tempUsuario.nombre >> tempUsuario.pin) {
-        cout << "Nombre: " << tempUsuario.nombre << ", PIN: " << tempUsuario.pin <<endl;
-        cout<<"======================="<<endl;
-    }
+    // Abre el archivo en modo de lectura
+    ifstream ingresados(archivoUsuarios);
 
-    archivoLectura.close();
+    if (ingresados.is_open()) {
+        // Muestra el encabezado
+        cout << "\nUsuarios Registrados:\n";
+        
+        // Estructura para almacenar la información de un usuario
+        usuario actual;
+
+        // Lee y muestra la información de cada usuario en el archivo
+        while (getline(ingresados, actual.nombre) && getline(ingresados, actual.password)) {
+            cout << "\n" << actual.nombre << "\n" << actual.password << "\n\n";
+        }
+
+        // Cierra el archivo después de leer todos los usuarios
+        ingresados.close();
+    } else {
+        // Muestra un mensaje si no se puede abrir el archivo
+        cout << "No se puede abrir el archivo.\n";
+    }
 }
 
-// Función principal
-void AgregarUsuarios() {
-    string archivoUsuarios = "usuarios.txt";
+// Función principal que actúa como menú principal
+void AgregareEliminarUsuarios() {
+    string archivoUsuarios = "ingresados.txt";
 
     int opcion;
 
@@ -152,18 +105,18 @@ void AgregarUsuarios() {
 
         switch (opcion) {
             case 1:
-                agregarUsuario(archivoUsuarios);
+                agregarUsuario();
                 break;
             case 2:
-                eliminarUsuario(archivoUsuarios);
+                //eliminarUsuario(archivoUsuarios);
                 break;
             case 3:
-                mostrarUsuarios(archivoUsuarios);
+                mostrarUsuarios();
                 break;
             case 0:
                 break;
             default:
-               cout << "Opcion no valida. Intente nuevamente." <<endl;
+                cout << "Opcion no valida. Intente nuevamente." <<endl;
                 break;
         }
 
@@ -202,7 +155,9 @@ const int tipos[] = {1, 5, 10, 20, 100};
 // funcion para rellenar de dinero al cajero automatico
  void ingresarDinero(Cajero &cajero_r) {
 
+    //se utiliza el ios::app para agregar informacion y que la informacion previa no se pierda
     ofstream archivo("relleno_De_Dinero.txt",ios::app);
+
     // Bucle para iterar a través de los tipos de billetes
     for (int i = 0; i < tiposBilletes; ++i) {
         // Variable para almacenar la cantidad de billetes ingresados por el usuario
