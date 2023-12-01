@@ -3,6 +3,8 @@
 #include <iostream> //libreria estandar de c++
 #include "LibreriaLocal.h" //incluyendo libreria local
 #include<fstream>// Librería para realizar operaciones de entrada y salida de archivos.
+#include <ctime>
+
 using namespace std;
 
 
@@ -13,7 +15,12 @@ void MenuPrincipal();
 //-------------------------------MAIN------------------------------------------
 int main(){
     limpiar();
-    MenuPrincipal();
+
+     logAccion("Inicio del programa");
+    
+     MenuPrincipal();
+
+      logAccion("Inicio del programa");
     return 0;
 }
 
@@ -124,7 +131,7 @@ int main(){
                 case 1:
                 limpiar();
                 slogan();
-                //funcion
+                //menuUser();
                 cout<<"presione ENTER para continuar"<<endl;
                 cin.ignore();
                 cin.get();

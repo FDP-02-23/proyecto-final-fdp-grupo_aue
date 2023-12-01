@@ -3,9 +3,32 @@
 #include <iostream> // Librería estándar de entrada y salida de datos.
 #include <cstdlib> // Librería para funciones y constantes de uso general.
 #include <fstream>  // Librería para realizar operaciones de entrada y salida de archivos.
+#include <ctime>
 using namespace std;
 
-//---------funciones--------------
+
+//------------------------------------------FUNCIONES-------------------------------------------------
+
+
+//funcion para ver el tiempo de duracion del codigo
+void logAccion(const string& mensaje) {
+    // Abre el archivo de registro en modo de añadir (append)
+    ofstream logFile("log.txt", ios::app);
+
+    if (logFile.is_open()) {
+        // Obtiene la fecha y hora actual para el registro
+        time_t tiempoActual = time(nullptr);
+        string tiempoStr = ctime(&tiempoActual);
+
+        // Escribe en el archivo de registro
+        logFile << tiempoStr.substr(0, tiempoStr.length() - 1) << " - " << mensaje <<endl;
+
+        // Cierra el archivo de registro
+        logFile.close();
+    } else {
+        cout << "Error al abrir el archivo de registro." <<endl;
+    }
+}
 
 //funcion para limpiar pantalla
 void limpiar(){
@@ -299,3 +322,16 @@ bool seccionAdmin() {
     }
 
 
+
+
+void retiroDinero(){
+
+}
+
+void depositoDinero(){
+
+}
+
+void estadoCuenta(){
+
+}
