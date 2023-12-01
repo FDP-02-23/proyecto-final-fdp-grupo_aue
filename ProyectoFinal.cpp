@@ -20,7 +20,7 @@ int main(){
     
      MenuPrincipal();
 
-      logAccion("Inicio del programa");
+      logAccion("fin del programa");
     return 0;
 }
 
