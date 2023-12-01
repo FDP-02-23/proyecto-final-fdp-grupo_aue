@@ -2,8 +2,9 @@
 
 #include <iostream> //libreria estandar de c++
 #include "LibreriaLocal.h" //incluyendo libreria local
-#include<fstream>// Librería para realizar operaciones de entrada y salida de archivos.
+#include <fstream>// Librería para realizar operaciones de entrada y salida de archivos.
 #include <ctime>
+#include <cstdlib>
 
 using namespace std;
 
@@ -16,17 +17,17 @@ void MenuPrincipal();
 int main(){
     limpiar();
 
-     logAccion("Inicio del programa");
     
      MenuPrincipal();
 
-      logAccion("fin del programa");
+
     return 0;
 }
 
 //----------------------------FUNCION DEL MENU PRINCIPAL----------------------------------------------
     void MenuPrincipal(){ 
-
+    
+    srand(time(0));// Seed para generar números aleatorios diferentes en cada ejecución
     int opc=0;
 
     do
@@ -37,7 +38,8 @@ int main(){
         cout << "\n===== MENU PRINCIPAL =====\n" << endl;
         cout << "1. Opciones para administrador" << endl;
         cout << "2. Opciones generales" << endl;
-        cout << "3. Salir" << endl;
+        cout << "3. ver archivo de acciones del programa"<<endl;
+        cout << "4. Salir" << endl;
         cout << "\nIngrese una opcion: ";
         cin >> opc; 
 
@@ -59,7 +61,7 @@ int main(){
             {
                 slogan();
                 cout << "\n===== MENU ADMINISTRADOR =====\n" << endl;
-                cout << "1. agregar e eliminar usuarios al sistema" << endl;
+                cout << "1. agregar usuarios al sistema" << endl;
                 cout << "2. rellenar e eliminar dinero del cajero" << endl;
                 cout << "3. cambiar la contrasena de la cuenta" << endl;
                 cout << "4. Regresar al menu" << endl;
@@ -71,7 +73,7 @@ int main(){
                 case 1:
                 limpiar();
                 slogan();
-                    AgregareEliminarUsuarios(); //Funcion donde se guarda la informacion en el archivo de texto
+                    agregarUsuarios(); //Funcion donde se guarda la informacion en el archivo de texto
                     cout << "Presione ENTER para continuar"<<endl;
                     cin.ignore();  //se utiliza para ignorar caracteres en el flujo de entrada estándar (cin)
                     cin.get(); //se utiliza para leer un solo carácter del flujo de entrada estándar (cin).
@@ -91,7 +93,7 @@ int main(){
                 case 3:
                 limpiar();
                 slogan();
-                //funcion
+                    user();//funcion para cambiar de contrasena 
                     cout<<"presione ENTER para continuar"<<endl;
                     cin.ignore();
                     cin.get();
@@ -99,7 +101,7 @@ int main(){
                 break;  
 
                 case 4:
-                break;  
+                break;
 
                 default:
                 cout<<"opcion invalida "<<endl;
@@ -114,11 +116,13 @@ int main(){
         case 2://-----------------------menu principal---------------------------------
         limpiar();
 
+
         int opc_gral;
         do
         {
             slogan();
             cout << "\n===== MENU GENERAL =====\n" << endl;
+            
                 cout << "1. retiro de dinero" << endl;
                 cout << "2. deposito de dinero" << endl;
                 cout << "3. estado de cuenta" << endl;
@@ -131,7 +135,7 @@ int main(){
                 case 1:
                 limpiar();
                 slogan();
-                //menuUser();
+                retiro();
                 cout<<"presione ENTER para continuar"<<endl;
                 cin.ignore();
                 cin.get();
@@ -142,7 +146,7 @@ int main(){
                 case 2:
                 limpiar();
                 slogan();
-                //funcion
+                deposito_e();
                 cout<<"presione ENTER para continuar"<<endl;
                 cin.ignore();
                 cin.get();
@@ -153,14 +157,14 @@ int main(){
                 case 3:
                 limpiar();
                 slogan();
-                //funcion
+                verEstadoCuenta();
                 cout<<"presione ENTER para continuar"<<endl;
                 cin.ignore();
                 cin.get();
                 limpiar();
 
                 break;
-
+                
                 case 4:
                 break;
                 
@@ -176,6 +180,17 @@ int main(){
         break;
 
         case 3:
+                limpiar();
+                logAccion();
+                cout<<"presione ENTER para continuar"<<endl;
+                cin.ignore();
+                cin.get();
+                limpiar();
+                
+                break;  
+        break;
+
+        case 4:
         break;
         
         default:
@@ -183,7 +198,7 @@ int main(){
             break;
         }
     
-    } while (opc != 3);
+    } while (opc != 4);
     
 
 
